@@ -4,6 +4,7 @@
   ],
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
+    "^@mui/(.*)$",
     "^@assets/(.*)$",
     "^@components/(.*)$",
     "^@contexts/(.*)$",
