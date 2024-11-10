@@ -11,6 +11,7 @@ import {
   MenuItem,
   Stack,
   Typography,
+  alpha,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
@@ -21,6 +22,12 @@ import {
 
 const DocMsg = ({ el, chatData }) => {
   const theme = useTheme();
+  const docBoxBackgroundLight = el.incoming
+    ? theme.palette.primary.main
+    : theme.palette.grey["0"];
+  const docBoxBackgroundDark = el.incoming
+    ? alpha(theme.palette.grey["0"], 0.35)
+    : theme.palette.grey["0"];
 
   return (
     <MessageLayout el={el} chatData={chatData}>
@@ -35,16 +42,34 @@ const DocMsg = ({ el, chatData }) => {
             }}
           >
             <Stack
-              sx={{ ml: "-0.375rem", mr: "0.45rem", pointerEvents: "none" }}
+              sx={{
+                mr: "0.65rem",
+                pointerEvents: "none",
+                backgroundColor:
+                  theme.palette.mode === "light"
+                    ? docBoxBackgroundLight
+                    : docBoxBackgroundDark,
+                borderRadius: "20rem",
+                p: "0.45rem",
+              }}
             >
               <File
-                size={54}
+                size={36}
                 weight={"fill"}
-                color={theme.palette.primary.main}
+                color={
+                  el.incoming
+                    ? theme.palette.background.default
+                    : theme.palette.primary.main
+                }
               />
             </Stack>
             <Stack sx={{ maxWidth: "92%", overflow: "hidden" }}>
               <Typography
+                color={
+                  el.incoming
+                    ? theme.palette.text.primary
+                    : theme.palette.grey["0"]
+                }
                 fontSize={"1rem"}
                 lineHeight={"1.5rem"}
                 fontWeight={500}
@@ -60,6 +85,11 @@ const DocMsg = ({ el, chatData }) => {
                 fontSize={".875rem"}
                 lineHeight={".9375rem"}
                 sx={{ whiteSpace: "nowrap" }}
+                color={
+                  el.incoming
+                    ? theme.palette.text.primary
+                    : theme.palette.grey["0"]
+                }
               >
                 {el.size}
               </Typography>
@@ -78,12 +108,21 @@ const DocMsg = ({ el, chatData }) => {
             }}
           >
             <Stack
-              sx={{ ml: "-0.375rem", mr: "0.45rem", pointerEvents: "none" }}
+              sx={{
+                mr: "0.65rem",
+                pointerEvents: "none",
+                backgroundColor:
+                  theme.palette.mode === "light"
+                    ? docBoxBackgroundLight
+                    : docBoxBackgroundDark,
+                borderRadius: "20rem",
+                p: "0.45rem",
+              }}
             >
               <File
-                size={54}
+                size={36}
                 weight={"fill"}
-                color={theme.palette.primary.main}
+                color={theme.palette.background.default}
               />
             </Stack>
             <Stack sx={{ maxWidth: "92%", overflow: "hidden" }}>
@@ -266,7 +305,9 @@ const Timeline = ({ el }) => {
   );
 };
 
-const TimeMetaText = ({ time = "00:00", absolute = false }) => {
+const TimeMetaText = ({ time = "00:00", absolute = false, isIncoming }) => {
+  const theme = useTheme();
+
   return (
     <Stack
       sx={{
@@ -290,6 +331,9 @@ const TimeMetaText = ({ time = "00:00", absolute = false }) => {
           textAlign: "initial",
           whiteSpace: "nowrap",
         }}
+        color={
+          isIncoming ? theme.palette.text.primary : theme.palette.grey["0"]
+        }
       >
         {time}
       </Typography>
@@ -310,7 +354,7 @@ const NoMessageTimeMetaLayout = ({ children, el }) => {
           left: "auto",
         }}
       >
-        <TimeMetaText time={el.time} absolute={true} />
+        <TimeMetaText time={el.time} absolute={true} isIncoming={el.incoming} />
       </Stack>
     </Stack>
   );
@@ -339,7 +383,7 @@ const TextMessageLayout = ({ el }) => {
       >
         {el.message}
       </Typography>
-      <TimeMetaText time={el.time} />
+      <TimeMetaText time={el.time} isIncoming={el.incoming} />
     </Stack>
   );
 };

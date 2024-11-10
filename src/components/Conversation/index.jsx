@@ -18,7 +18,7 @@ const Conversation = () => {
           flexGrow: 1,
           backgroundColor:
             theme.palette.mode === "light"
-              ? "#f8faff"
+              ? theme.palette.grey["200"]
               : theme.palette.background.paper,
           height: "100%",
           overflow: "auto",
