@@ -1,4 +1,5 @@
 import { Message_options } from "@data";
+import { faker } from "@faker-js/faker";
 import { DotsThreeVertical, File } from "phosphor-react";
 import React from "react";
 
@@ -199,27 +200,81 @@ const ReplyMsg = ({ el, chatData }) => {
 
   return (
     <MessageLayout el={el} chatData={chatData}>
-      <Stack spacing={1}>
-        <Stack
-          p={1}
-          direction={"column"}
-          spacing={2}
-          alignItems={"center"}
-          sx={{
-            backgroundColor: "rgba(255, 255, 255, 0.25)",
-            borderRadius: 1,
-          }}
-        >
-          <Typography
-            variant={"body2"}
-            color={
-              theme.palette.mode === "light"
-                ? "#fff"
-                : theme.palette.text.primary
-            }
+      <Stack>
+        <Stack p={".125rem 0"}>
+          <Stack
+            p={".1875rem .375rem .1875rem .1875rem"}
+            direction={"column"}
+            justifyContent={"flex-start"}
+            sx={{
+              backgroundColor: el.incoming
+                ? alpha(theme.palette.primary.main, 0.2)
+                : alpha(theme.palette.grey["0"], 0.25),
+              borderRadius: "0.375rem",
+              overflow: "hidden",
+              cursor: "pointer",
+              mb: ".0625rem",
+              position: "relative",
+            }}
           >
-            {el.message}
-          </Typography>
+            <Box
+              component={"div"}
+              sx={{
+                display: "block",
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                insetInlineStart: 0,
+                width: 3,
+                backgroundColor: el.incoming
+                  ? theme.palette.primary.main
+                  : theme.palette.grey["0"],
+              }}
+            />
+            <Stack pl={".5rem"} direction={"column"}>
+              <Box
+                component={"div"}
+                sx={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                <Typography
+                  fontSize={"calc(15px - .125rem)"}
+                  fontWeight={500}
+                  lineHeight={"1.25rem"}
+                  color={
+                    el.incoming
+                      ? theme.palette.primary.main
+                      : theme.palette.grey["0"]
+                  }
+                >
+                  {faker.person.fullName()}
+                </Typography>
+              </Box>
+              <Typography
+                component={"p"}
+                sx={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  marginBottom: 0,
+                }}
+                color={
+                  theme.palette.mode === "light"
+                    ? el.incoming
+                      ? theme.palette.text.primary
+                      : theme.palette.grey["0"]
+                    : theme.palette.text.primary
+                }
+                fontSize={"calc(15px - .125rem)"}
+                lineHeight={"1.125rem"}
+              >
+                {el.message}
+              </Typography>
+            </Stack>
+          </Stack>
         </Stack>
         <TextMessageLayout el={el} />
       </Stack>
@@ -371,7 +426,9 @@ const TextMessageLayout = ({ el }) => {
       justifyContent={"space-between"}
     >
       <Typography
-        color={el.incoming ? theme.palette.text.primary : "#fff"}
+        color={
+          el.incoming ? theme.palette.text.primary : theme.palette.grey["0"]
+        }
         fontSize={15}
         lineHeight={1.3125}
         sx={{

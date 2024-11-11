@@ -255,6 +255,15 @@ const Chat_History = [
     outgoing: true,
     time: "00:04",
   },
+  {
+    type: "msg",
+    subtype: "reply",
+    reply: "This is a reply",
+    message: "Yep, I can also do that",
+    incoming: true,
+    outgoing: false,
+    time: "00:04",
+  },
 ];
 
 const Message_options = [
