@@ -155,37 +155,39 @@ const DocMsg = ({ el, chatData }) => {
 
 const LinkMsg = ({ el, chatData }) => {
   const theme = useTheme();
+  const linkColorLight = el.incoming ? "" : "#fff";
+  const linkColorDark = el.incoming ? "#fff" : "#fff";
 
   return (
     <MessageLayout el={el} chatData={chatData}>
-      <Stack spacing={1.5}>
-        <Stack
-          p={1.5}
-          spacing={2}
-          direction={"column"}
-          sx={{
-            backgroundColor: theme.palette.background.paper,
-            borderRadius: 1,
+      <Stack
+        direction={"row"}
+        alignItems={"end"}
+        justifyContent={"space-between"}
+      >
+        <a
+          href={el.href}
+          style={{
+            color:
+              theme.palette.mode === "light" ? linkColorLight : linkColorDark,
           }}
         >
-          <img
-            src={el.preview}
-            alt={el.message}
-            style={{ maxHeight: 210, borderRadius: "10px" }}
-          />
-          <Stack spacing={1}>
-            <Typography variant={"subtitle2"}>Create chat app</Typography>
-            <Typography
-              variant={"subtitle2"}
-              color={theme.palette.primary.main}
-              component={Link}
-              to={"https://www.youtube.com"}
-            >
-              www.youtube.com
-            </Typography>
-          </Stack>
-        </Stack>
-        <TextMessageLayout el={el} />
+          <Typography
+            fontSize={15}
+            lineHeight={1.3125}
+            sx={{
+              wordBreak: "break-word",
+              whiteSpace: "pre-wrap",
+              textAlign: "initial",
+              display: "block",
+              unicodeBidi: "plaintext",
+              cursor: "pointer",
+            }}
+          >
+            {el.message}
+          </Typography>
+        </a>
+        <TimeMetaText time={el.time} isIncoming={el.incoming} />
       </Stack>
     </MessageLayout>
   );
