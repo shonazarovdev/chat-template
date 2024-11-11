@@ -1,11 +1,10 @@
 import { Message_options } from "@data";
-import { DotsThreeVertical, DownloadSimple, File, Image } from "phosphor-react";
+import { DotsThreeVertical, File } from "phosphor-react";
 import React from "react";
 
 import {
   Box,
   Divider,
-  IconButton,
   Link,
   Menu,
   MenuItem,
@@ -165,11 +164,13 @@ const LinkMsg = ({ el, chatData }) => {
         alignItems={"end"}
         justifyContent={"space-between"}
       >
-        <a
+        <Link
           href={el.href}
-          style={{
-            color:
-              theme.palette.mode === "light" ? linkColorLight : linkColorDark,
+          color={
+            theme.palette.mode === "light" ? linkColorLight : linkColorDark
+          }
+          sx={{
+            textDecoration: "underline",
           }}
         >
           <Typography
@@ -186,7 +187,7 @@ const LinkMsg = ({ el, chatData }) => {
           >
             {el.message}
           </Typography>
-        </a>
+        </Link>
         <TimeMetaText time={el.time} isIncoming={el.incoming} />
       </Stack>
     </MessageLayout>
@@ -276,8 +277,6 @@ const MediaMsg = ({ el, chatData }) => {
 };
 
 const TextMsg = ({ el, chatData }) => {
-  const theme = useTheme();
-
   return (
     <MessageLayout el={el} chatData={chatData}>
       <TextMessageLayout el={el} />
@@ -307,7 +306,7 @@ const Timeline = ({ el }) => {
   );
 };
 
-const TimeMetaText = ({ time = "00:00", absolute = false, isIncoming }) => {
+const TimeMetaText = ({ time = "00:00", isIncoming }) => {
   const theme = useTheme();
 
   return (
@@ -547,7 +546,7 @@ const MessageLayout = ({ children, el = {}, chatData, noAppendix = false }) => {
   };
 
   function getBorderRadius() {
-    for (const [key, rule] of Object.entries(borderRadiusRules)) {
+    for (const [_, rule] of Object.entries(borderRadiusRules)) {
       const ruleResult = rule();
       if (ruleResult) {
         return borderRadiusList[ruleResult];
