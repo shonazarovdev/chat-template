@@ -5,7 +5,8 @@ import {
   File,
   Image,
   LinkSimple,
-  PaperPlaneTilt,
+  Microphone,
+  PaperPlaneRight,
   Smiley,
   Sticker,
   User,
@@ -15,6 +16,7 @@ import React from "react";
 import {
   Box,
   Fab,
+  Grow,
   IconButton,
   InputAdornment,
   Stack,
@@ -23,11 +25,11 @@ import {
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 
-const StyledInput = styled(TextField)(({ theme }) => ({
+const StyledInput = styled(TextField)({
   "& .MuiInputBase-input": {
     paddingBlock: 12,
   },
-}));
+});
 
 const Actions = [
   {
@@ -62,7 +64,7 @@ const Actions = [
   },
 ];
 
-const ChatInput = ({ setOpenPicker }) => {
+const ChatInput = ({ setOpenPicker, value, setValue }) => {
   const [openActions, setOpenActions] = React.useState(false);
 
   return (
@@ -70,6 +72,8 @@ const ChatInput = ({ setOpenPicker }) => {
       fullWidth
       placeholder={"Write a message..."}
       variant="filled"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
       InputProps={{
         disabledunderline: "true",
         startAdornment: (
@@ -116,6 +120,16 @@ const ChatInput = ({ setOpenPicker }) => {
 const Footer = () => {
   const theme = useTheme();
   const [openPicker, setOpenPicker] = React.useState(false);
+  const [fieldValue, setFieldValue] = React.useState("");
+  // const [fieldMode, setFieldMode] = React.useState("micro");
+
+  const handleChange = (val) => {
+    setFieldValue(val);
+  };
+
+  const handleSend = () => {
+    setFieldValue("");
+  };
 
   return (
     <Box
@@ -125,7 +139,7 @@ const Footer = () => {
         width: "100%",
       }}
     >
-      <Stack direction={"row"} alignItems={"center"} spacing={3}>
+      <Stack direction={"row"} alignItems={"center"} spacing={2}>
         <Stack sx={{ width: "100%" }}>
           <Box
             sx={{
@@ -142,26 +156,56 @@ const Footer = () => {
               onEmojiSelect={console.log}
             />
           </Box>
-          <ChatInput setOpenPicker={setOpenPicker} />
+          <ChatInput
+            value={fieldValue}
+            setValue={handleChange}
+            setOpenPicker={setOpenPicker}
+          />
         </Stack>
-        <Box
-          sx={{
-            height: 48,
-            width: 48,
-            backgroundColor: theme.palette.primary.main,
-            borderRadius: 1.5,
-          }}
-        >
-          <Stack
-            sx={{ height: "100%", width: "100%" }}
-            alignItems={"center"}
-            justifyContent={"center"}
+        <Stack direction={"row"} spacing={1}>
+          <IconButton
+            sx={(theme) => ({
+              height: 48,
+              width: 48,
+              borderRadius: "20rem",
+              backgroundColor:
+                theme.palette.mode === "light" ? "#f2f3f5" : "#252c35",
+              position: "relative",
+            })}
+            onClick={handleSend}
           >
-            <IconButton>
-              <PaperPlaneTilt color={"#fff"} />
-            </IconButton>
-          </Stack>
-        </Box>
+            <Stack
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                opacity: fieldValue.length === 0 ? 1 : 0,
+              }}
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
+              <Grow in={fieldValue.length === 0}>
+                <Microphone />
+              </Grow>
+            </Stack>
+            <Stack
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                opacity: fieldValue.length !== 0 ? 1 : 0,
+              }}
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
+              <Grow in={fieldValue.length !== 0}>
+                <PaperPlaneRight />
+              </Grow>
+            </Stack>
+          </IconButton>
+        </Stack>
       </Stack>
     </Box>
   );

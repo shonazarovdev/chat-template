@@ -42,7 +42,7 @@ const DocMsg = ({ el, chatData }) => {
             }}
           >
             <Stack
-              sx={{
+              sx={(theme) => ({
                 mr: "0.65rem",
                 pointerEvents: "none",
                 backgroundColor:
@@ -51,7 +51,7 @@ const DocMsg = ({ el, chatData }) => {
                     : docBoxBackgroundDark,
                 borderRadius: "20rem",
                 p: "0.45rem",
-              }}
+              })}
             >
               <File
                 size={36}
@@ -65,31 +65,29 @@ const DocMsg = ({ el, chatData }) => {
             </Stack>
             <Stack sx={{ maxWidth: "92%", overflow: "hidden" }}>
               <Typography
-                color={
-                  el.incoming
-                    ? theme.palette.text.primary
-                    : theme.palette.grey["0"]
-                }
                 fontSize={"1rem"}
                 lineHeight={"1.5rem"}
                 fontWeight={500}
-                sx={{
+                sx={(theme) => ({
                   overflowX: "hidden",
                   whiteSpace: "nowrap",
                   textOverflow: "ellipsis",
-                }}
+                  color: el.incoming
+                    ? theme.palette.text.primary
+                    : theme.palette.grey["0"],
+                })}
               >
                 Abstract.png
               </Typography>
               <Typography
                 fontSize={".875rem"}
                 lineHeight={".9375rem"}
-                sx={{ whiteSpace: "nowrap" }}
-                color={
-                  el.incoming
+                sx={(theme) => ({
+                  whiteSpace: "nowrap",
+                  color: el.incoming
                     ? theme.palette.text.primary
-                    : theme.palette.grey["0"]
-                }
+                    : theme.palette.grey["0"],
+                })}
               >
                 {el.size}
               </Typography>
@@ -108,7 +106,7 @@ const DocMsg = ({ el, chatData }) => {
             }}
           >
             <Stack
-              sx={{
+              sx={(theme) => ({
                 mr: "0.65rem",
                 pointerEvents: "none",
                 backgroundColor:
@@ -117,7 +115,7 @@ const DocMsg = ({ el, chatData }) => {
                     : docBoxBackgroundDark,
                 borderRadius: "20rem",
                 p: "0.45rem",
-              }}
+              })}
             >
               <File
                 size={36}
@@ -154,7 +152,6 @@ const DocMsg = ({ el, chatData }) => {
 };
 
 const LinkMsg = ({ el, chatData }) => {
-  const theme = useTheme();
   const linkColorLight = el.incoming ? "" : "#fff";
   const linkColorDark = el.incoming ? "#fff" : "#fff";
 
@@ -167,12 +164,11 @@ const LinkMsg = ({ el, chatData }) => {
       >
         <Link
           href={el.href}
-          color={
-            theme.palette.mode === "light" ? linkColorLight : linkColorDark
-          }
-          sx={{
+          sx={(theme) => ({
             textDecoration: "underline",
-          }}
+            color:
+              theme.palette.mode === "light" ? linkColorLight : linkColorDark,
+          })}
         >
           <Typography
             fontSize={15}
@@ -196,8 +192,6 @@ const LinkMsg = ({ el, chatData }) => {
 };
 
 const ReplyMsg = ({ el, chatData }) => {
-  const theme = useTheme();
-
   return (
     <MessageLayout el={el} chatData={chatData}>
       <Stack>
@@ -206,20 +200,20 @@ const ReplyMsg = ({ el, chatData }) => {
             p={".1875rem .375rem .1875rem .1875rem"}
             direction={"column"}
             justifyContent={"flex-start"}
-            sx={{
+            sx={(theme) => ({
               backgroundColor: el.incoming
                 ? alpha(theme.palette.primary.main, 0.2)
-                : alpha(theme.palette.grey["0"], 0.25),
+                : alpha(theme.palette.grey["0"], 0.15),
               borderRadius: "0.375rem",
               overflow: "hidden",
               cursor: "pointer",
               mb: ".0625rem",
               position: "relative",
-            }}
+            })}
           >
             <Box
               component={"div"}
-              sx={{
+              sx={(theme) => ({
                 display: "block",
                 position: "absolute",
                 top: 0,
@@ -229,7 +223,7 @@ const ReplyMsg = ({ el, chatData }) => {
                 backgroundColor: el.incoming
                   ? theme.palette.primary.main
                   : theme.palette.grey["0"],
-              }}
+              })}
             />
             <Stack pl={".5rem"} direction={"column"}>
               <Box
@@ -244,30 +238,29 @@ const ReplyMsg = ({ el, chatData }) => {
                   fontSize={"calc(15px - .125rem)"}
                   fontWeight={500}
                   lineHeight={"1.25rem"}
-                  color={
-                    el.incoming
+                  sx={(theme) => ({
+                    color: el.incoming
                       ? theme.palette.primary.main
-                      : theme.palette.grey["0"]
-                  }
+                      : theme.palette.grey["0"],
+                  })}
                 >
                   {faker.person.fullName()}
                 </Typography>
               </Box>
               <Typography
                 component={"p"}
-                sx={{
+                sx={(theme) => ({
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   marginBottom: 0,
-                }}
-                color={
-                  theme.palette.mode === "light"
-                    ? el.incoming
-                      ? theme.palette.text.primary
-                      : theme.palette.grey["0"]
-                    : theme.palette.text.primary
-                }
+                  color:
+                    theme.palette.mode === "light"
+                      ? el.incoming
+                        ? theme.palette.text.primary
+                        : theme.palette.grey["0"]
+                      : theme.palette.text.primary,
+                })}
                 fontSize={"calc(15px - .125rem)"}
                 lineHeight={"1.125rem"}
               >
@@ -340,8 +333,6 @@ const TextMsg = ({ el, chatData }) => {
 };
 
 const Timeline = ({ el }) => {
-  const theme = useTheme();
-
   return (
     <Stack
       direction={"row"}
@@ -352,7 +343,7 @@ const Timeline = ({ el }) => {
       <Divider width={"46%"} />
       <Typography
         variant={"caption"}
-        sx={{ color: theme.palette.text.primary }}
+        sx={(theme) => ({ color: theme.palette.text.primary })}
       >
         {el.text}
       </Typography>
@@ -362,8 +353,6 @@ const Timeline = ({ el }) => {
 };
 
 const TimeMetaText = ({ time = "00:00", isIncoming }) => {
-  const theme = useTheme();
-
   return (
     <Stack
       sx={{
@@ -380,16 +369,16 @@ const TimeMetaText = ({ time = "00:00", isIncoming }) => {
         fontSize={".75rem"}
         fontWeight={400}
         lineHeight={1.35}
-        sx={{
+        sx={(theme) => ({
           mr: ".345rem",
           opacity: "0.7",
           userSelect: "none",
           textAlign: "initial",
           whiteSpace: "nowrap",
-        }}
-        color={
-          isIncoming ? theme.palette.text.primary : theme.palette.grey["0"]
-        }
+          color: isIncoming
+            ? theme.palette.text.primary
+            : theme.palette.grey["0"],
+        })}
       >
         {time}
       </Typography>
@@ -417,8 +406,6 @@ const NoMessageTimeMetaLayout = ({ children, el }) => {
 };
 
 const TextMessageLayout = ({ el }) => {
-  const theme = useTheme();
-
   return (
     <Stack
       direction={"row"}
@@ -426,18 +413,18 @@ const TextMessageLayout = ({ el }) => {
       justifyContent={"space-between"}
     >
       <Typography
-        color={
-          el.incoming ? theme.palette.text.primary : theme.palette.grey["0"]
-        }
         fontSize={15}
         lineHeight={1.3125}
-        sx={{
+        sx={(theme) => ({
           wordBreak: "break-word",
           whiteSpace: "pre-wrap",
           textAlign: "initial",
           display: "block",
           unicodeBidi: "plaintext",
-        }}
+          color: el.incoming
+            ? theme.palette.text.primary
+            : theme.palette.grey["0"],
+        })}
       >
         {el.message}
       </Typography>
@@ -645,7 +632,7 @@ const MessageLayout = ({ children, el = {}, chatData, noAppendix = false }) => {
           </Stack>
         )}
         <Box
-          sx={{
+          sx={(theme) => ({
             backgroundColor: el.incoming
               ? theme.palette.background.default
               : theme.palette.primary.main,
@@ -654,7 +641,7 @@ const MessageLayout = ({ children, el = {}, chatData, noAppendix = false }) => {
             maxWidth: "30rem",
             overflow: "hidden",
             p: ".3125rem .5rem .375rem",
-          }}
+          })}
         >
           {children}
         </Box>

@@ -13,7 +13,7 @@ import {
   Typography,
   alpha,
 } from "@mui/material";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 import { SimpleBarStyle } from "@components/Scrollbar";
 
@@ -48,12 +48,10 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const ChatElement = ({ id, name, img, msg, time, unread, online }) => {
-  const theme = useTheme();
-
+const ChatElement = ({ name, img, msg, time, unread, online }) => {
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         width: "100%",
         borderRadius: 1,
         backgroundColor:
@@ -61,7 +59,7 @@ const ChatElement = ({ id, name, img, msg, time, unread, online }) => {
             ? "#f8faff"
             : theme.palette.background.paper,
         cursor: "pointer",
-      }}
+      })}
       p={2}
     >
       <Stack
@@ -133,8 +131,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Chats = () => {
-  const theme = useTheme();
-
   return (
     <Box
       sx={{
